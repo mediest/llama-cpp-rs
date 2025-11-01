@@ -354,6 +354,10 @@ impl<'model> LlamaContext<'model> {
         tracing::debug!("Remove lora adapter");
         Ok(())
     }
+    /// Wait for any in-flight computations to complete on the backend.
+    pub fn synchronize(&self) {
+        unsafe { llama_cpp_sys_2::llama_synchronize(self.context.as_ptr()) }
+    }
 }
 
 impl Drop for LlamaContext<'_> {
