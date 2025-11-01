@@ -307,6 +307,12 @@ impl<'model> LlamaContext<'model> {
         LlamaTimings { timings }
     }
 
+    /// すべての計算が完了するまで待機します。
+    /// モデルの切替・再初期化の直前に呼び出すと安全です。
+    pub fn synchronize(&self) {
+        unsafe { llama_cpp_sys_2::llama_synchronize(self.context.as_ptr()) }
+    }
+
     /// Sets a lora adapter.
     ///
     /// # Errors
